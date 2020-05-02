@@ -1,0 +1,33 @@
+{% extends 'attraction/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+<form method="post" action="" class="delete-form">
+  {% csrf_token %}
+
+  <div class="travel_variation_area" style="padding-top: 50px">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-xl-12">
+                          <div class="single_travel text-center">
+                              <h3>ลบทริปหรือไม่ ?</h3>
+                              <p>--- คุณแน่ใจหรือไม่ว่าต้องการลบ {{object.name }}---</p>
+                          </div>
+                          <div class="form-group more_place_btn text-center">
+                              <button class="btn btn-danger btn-lg" type="submit">ใช่</button>
+                              <a class="btn btn-secondary btn-lg" href="{% url 'listPlan' %}">ยกเลิก</a>
+                          </div>
+                      </div>
+                      
+                  </div>
+              </div>
+            </div>
+
+</form>
+
+
+
+{% endblock %}

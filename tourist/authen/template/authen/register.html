@@ -1,0 +1,97 @@
+{% extends 'attraction/base.html' %}
+
+
+
+
+{% block content %}
+
+<div class="row justify-content-center mb-5">
+  <div class="col-md-6 mb-md-5">
+    <h2 class="text-center">สมัครสมาชิก</h2>
+      <form method="POST" action="{% url 'register' %}" class="bg-light p-5 contact-form">
+	  	{% csrf_token %}
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            {{form.first_name}}
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            {{form.last_name}}
+          </div>
+        </div>
+      </div>
+        <div class="form-group">
+          {{form.username}}
+        </div>
+        <div class="form-group">
+          {{form.email}}
+        </div>
+        
+        <div class="form-group">
+          {{form.password1}}
+        </div>
+        <div class="form-group">
+          {{form.password2}}
+        </div>
+        
+          {{ form.error }}
+        
+        <div class="form-group">
+          <input type="submit" value="สมัครสมาชิก" class="btn btn-danger btn-sm btn-block">
+        </div>
+        
+				<div class=" form-group">
+					Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
+				</div>
+				
+      </form>      
+  </div>
+  
+</div>
+
+<script>
+						/* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
+		//We start indexing at one because CSRF_token is considered and input field 
+		 */
+
+		//Query All input fields
+		var form_fields = document.getElementsByTagName('input')
+		form_fields[1].placeholder='Username';
+		form_fields[2].placeholder='Email';
+		form_fields[3].placeholder='Firstname';
+		form_fields[4].placeholder='Lastname';
+    form_fields[5].placeholder='Password';
+    form_fields[6].placeholder='Confirm Password';
+
+
+		for (var field in form_fields){	
+			form_fields[field].className += ' form-control'
+		}
+	</script>
+
+
+
+  {% comment %} <form method="post">
+    {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group">
+         {{ field.label_tag }} 
+        </div>
+      <div class="form-group">
+          {{ field}}
+        </div>
+        
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
+  </form> {% endcomment %}
+
+{% endblock%}

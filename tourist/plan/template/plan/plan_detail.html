@@ -1,0 +1,271 @@
+{% extends 'attraction/base.html' %}
+
+{% block content %}
+<style>
+    #attraction-img{
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .popular_places_area {
+        padding-top: 50px;
+        padding-bottom: 150px;
+        background: #F7FAFD;
+}
+.popular_places_area .single_place {
+    background: #fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 2px;
+    overflow: hidden;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    margin-bottom: 5px;
+}
+.col-lg-4{
+    width: 100%;
+    min-height: 1px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.col-lg-8{
+    width: 100%;
+    min-height: 1px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.popular_places_area .single_place .place_info {
+    padding: 27px 20px 20px 40px;
+}
+.search_input {
+    padding: 12px 24px;
+    background-color: transparent;
+    transition: transform 250ms ease-in-out;
+    font-size: 14px;
+    line-height: 18px;
+    color: #575756;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    background-position: 95% center;
+    border-radius: 50px;
+    border: 1px solid #575756;
+    transition: all 250ms ease-in-out;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.search_input::placeholder {
+    color: color(#575756 a(0.8));
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.search_input:hover,
+.search_input:focus {
+    padding: 12px 0;
+    outline: 0;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #575756;
+    border-radius: 0;
+    background-position: 100% center;
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="popular_places_area">
+            <div class="container">
+                <form method='GET' action="">
+                    <input class="search_input" type='text' name='q' placeholder='search' value='{{ request.GET.q }}'/>
+
+                    
+                </form>
+            </div>  
+            
+            <div class="row">    
+                <div class="col-lg-4" style="height: 580px; overflow-y: scroll">
+                    <div class="single_place head">
+                        <div class="place_info">
+                            <h4><strong>{{ detail.name }}</strong></h4>
+                             <hr>       
+                            <p>{{ detail.detail }}</p>
+                            <a href="edit/?from={{ request.path|urlencode }}"><p style="text-align: right; color:#1EC6B6;"><i class="fa fa-edit"></i>Edit</p></a>
+
+                        </div>
+                    </div>
+                    
+                    {% for place in attractions %}   
+                        <div class="single_place attraction_plan">
+                            <div class="thumb">
+                                <img id="attraction-img" src="{{ place.touristattraction.img }}" alt="">
+                            </div>
+                            <div class="place_info">
+                                <a href="{{ place.get_absolute_url }}"><h3>{{ place.touristattraction.name }}</h3></a>
+                                        
+                                <p>{{ place.touristattraction.province }}</p>
+                                        
+                                <p><i class="fa fa-search"></i>{{ place.touristattraction.category }}</p>
+                               {% comment %} {% include 'attraction/plan_delete.html' %} 
+                               <a data-toggle="modal" data-target="#deleteattraction" href="#"><i class="fa fa-trash-o"></i></a> {% endcomment %}
+                            
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="single_place no_attraction">
+                            <div class="place_info">
+ 
+                                        
+                                <p>สถานที่ต่างๆ ที่คุณเพิ่มจะปรากฏที่นี่</p>
+
+                            </div>
+                        </div>
+
+                    {% endfor %}
+                    
+                        
+                      
+                <br/>{% for page_obj in detail.page_obj.all %}{{ page_obj }}<br/>{% endfor %}    
+                </div>
+
+
+                <div class="col-lg-8">
+                    <!--MAP-->
+            <div class="">
+                <div id="map" style="height: 580px; position: relative; overflow: hidden;">
+                </div>
+                    <script>
+                        function initMap() {
+                            var uluru = {
+                                lat: -25.363,
+                                lng: 131.044
+                            };
+                            
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                                center: {
+                                    lat: -31.197,
+                                    lng: 150.744
+                                },
+                                zoom: 9,
+                                
+                            });
+                        }
+                    </script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC29LAeniiLeMliJJ4SJsPff9vFLii2b3k&callback=initMap">
+                    </script>
+    
+
+            </div>
+        <!--END MAP-->
+
+                </div>
+            </div>
+        
+</div>
+
+
+
+
+
+
+
+
+
+{% comment %}
+<div class="row">
+            
+      
+        {% comment %} <div class="trip all">
+            <div class="trip name bg-white" style="padding: 1.2rem 1.5rem;">
+                <div class="trips header">
+                    <h2> {{ detail.name }}</h2>
+                </div>
+                <div class="trips desc">
+                    <p> {{ detail.detail }}</p>
+                </div>
+            </div> {% endcomment %}
+
+            
+            
+            
+            {% comment %} {% empty %}
+            <div class="trip empty">
+            <div class="trip empty text">
+            <p>สถานที่ต่างๆที่คุณเพิ่มจะปรากฏที่นี่</p>
+            </div>
+            </div> {% endcomment %}
+
+
+
+                    
+
+
+{% comment %}
+
+    <div class="col-md-3">
+        <div class="trip map">
+
+
+        <!--MAP-->
+            <div class="">
+                <div id="map" style="height: 480px; position: relative; overflow: hidden;">
+                </div>
+                    <script>
+                        function initMap() {
+                            var uluru = {
+                                lat: -25.363,
+                                lng: 131.044
+                            };
+                            
+                            var map = new google.maps.Map(document.getElementById('map'), {
+                                center: {
+                                    lat: -31.197,
+                                    lng: 150.744
+                                },
+                                zoom: 9,
+                                
+                            });
+                        }
+                    </script>
+                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC29LAeniiLeMliJJ4SJsPff9vFLii2b3k&callback=initMap">
+                    </script>
+    
+
+            </div>
+        <!--END MAP-->
+
+
+
+
+        </div>
+    </div>
+
+    <a href='{{ detail.get_edit_url }}'>Edit</a>
+    <a href='{{ detail.get_delete_url }}'>Delete</a>
+    
+</div>
+
+
+{% endcomment %}
+
+
+
+
+{% endblock %}

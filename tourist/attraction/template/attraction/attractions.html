@@ -1,0 +1,264 @@
+{% extends 'attraction/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+#attraction-img{
+    height: 170px;
+    object-fit: cover;
+    }
+
+
+</style>
+
+
+
+
+
+
+<!-- bradcam_area  -->
+    <div class="bradcam_area bradcam_bg_2">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text text-center">
+                        <h3>Destinations</h3>
+                        <br>   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ bradcam_area  -->
+
+  
+
+
+
+
+
+<div class="container">
+                            <form method='GET' action="">
+                            <input class="single_select" type='text' name='q' placeholder='search' value='{{ request.GET.q }}'/>
+                            <button type='submit'>Search<button>
+                            </form>
+                    </div>
+             
+
+<div class="col-lg-4">
+<aside class="single_sidebar_widget search_widget">
+                     <form action="#">
+                        <div class="form-group">
+                           <div class="input-group mb-3">
+                              <input type="text" class="form-control" placeholder='Search Keyword'
+                                 onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+                              <div class="input-group-append">
+                                 <button class="btn" type="button"><i class="ti-search"></i></button>
+                              </div>
+                           </div>
+                        </div>
+                        <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                           type="submit">Search</button>
+                     </form>
+                  </aside>
+</div>
+ 
+
+
+
+
+    <div class="filter bg-white" style="padding-top: 50px;">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-lg-9">
+                    <div class="filter_result_wrap">
+                        <h4>Filter Result</h4>
+                        <form method="GET" action="">
+                        <div class="filter_bordered">
+                            <div class="filter_inner">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="single_select">
+                                            <select id="province" name="province" size="1" autocomplete="off">
+                                                <option data-display="{{ request.GET.province }}">จังหวัด</option>
+                                                {% for province in province %}
+                                                <option value="{{province}}">{{province}}</option>
+                                                {% endfor %}
+                                              </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                    
+                                        <div class="single_select">
+
+                                            <select id="category" name="category">
+                                                <option data-display="{{ request.GET.category }}">ประเภท</option>
+                                                {% for cat in categories %}
+                                                <option value="{{cat}}">{{cat}}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    
+                                
+                                    
+                                </div>
+                            </div>
+
+                            <div class="reset_btn">
+                                <button class="boxed-btn4" type="submit">Filter</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+    <div class="popular_places_area bg-light" style="padding-top: 80px; padding-bottom: 100px;">
+        <div class="container">
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-light" style="padding-left: 0px;">
+                <li class="breadcrumb-item"><a href="/"><i class="fa fa-home"></i> หน้าหลัก</a></li>
+                <li class="breadcrumb-item active" aria-current="page">แหล่งท่องเที่ยว</li>
+                </ol>
+            </nav>
+            <br>
+
+            <div class="col-lg-12">
+                <div class="row">
+                    
+                    {% for place in page_obj %}
+                        <div class="col-lg-3 col-md-3">
+                            <div class="single_place">
+                                <div class="thumb">
+                                    <a href="{{ place.get_absolute_url }}"><img id="attraction-img" src="{{ place.img }}" alt=""></a>
+                                    <a href="#" class="prise"><i class="fa fa-heart"></i></a>
+                                </div>
+                                <div class="place_info">
+                                    <a href="{{ place.get_absolute_url }}"><h3>{{ place.name }}</h3></a>
+                                    <p>{{place.province}}</p>
+                                    <div class="rating_days d-flex justify-content-between">
+                                        <span class="d-flex justify-content-right align-items-center">
+                                            <i class="fa fa-star"></i> 
+                                            <i class="fa fa-star"></i> 
+                                            <i class="fa fa-star"></i> 
+                                            <i class="fa fa-star"></i> 
+                                            <i class="fa fa-star"></i>
+                                            <a href="#">(20 Review)</a>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}    
+                </div>
+            </div>
+            
+            <!---pagination-->
+            <nav class="blog-pagination justify-content-center d-flex">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a href="?page=1{% if request.GET.q %}&q={{ request.GET.q}}
+                                        {% elif request.GET.province %}&province={{ request.GET.province}}&category={{ request.GET.category}}
+                                        
+                                        {% endif %}"
+                            class="page-link" aria-label="first"><i class="ti-angle-double-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q}}
+                                                                          {% elif request.GET.province %}&province={{ request.GET.province}}&category={{ request.GET.category}}
+                                                                          
+                                                                          
+                                                                          {% endif %}"
+                            class="page-link" aria-label="Previous"><i class="ti-angle-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="current page-item active">
+                                <a href="#" class="page-link">{{ num }}</a>
+                            </li>
+
+
+                        {% elif num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %}
+                            <li class="page-item ">
+                                <a href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q}}
+                                                        {% elif request.GET.province %}&province={{ request.GET.province}}&category={{ request.GET.category}}
+                                                        
+                                                        {% endif %}"
+                                class="pagination-number page-link">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q}}
+                                                                      {% elif request.GET.province %}&province={{ request.GET.province}}&category={{ request.GET.category}}
+                                                                      
+                                                                      {% endif %}"
+                        class="page-link" aria-label="Next"><i class="ti-angle-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.q %}&q={{ request.GET.q}}
+                                                                         {% elif request.GET.province %}&province={{ request.GET.province}}&category={{ request.GET.category}}
+                                                                         {% endif %}"
+                        class="page-link" aria-label="Last"><i class="ti-angle-double-right"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <!---pagination-->
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>
+            
+
+
+
+
+
+<script>
+
+</script>
+
+
+
+
+
+{% endblock %}

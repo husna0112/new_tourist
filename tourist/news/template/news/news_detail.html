@@ -1,0 +1,111 @@
+{% extends 'attraction/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+#attraction-recommend{
+    height: 90px;
+    width: 90px;
+    object-fit: cover;
+
+}
+</style>
+
+<div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="background-color: #fff; padding-left: 0px; padding-top: 29px;">
+          <li class="breadcrumb-item"><a href="/"><i class="fa fa-home"></i> หน้าหลัก</a></li>
+          <li class="breadcrumb-item"><a href="/news">ข่าวสารประชาสัมพันธ์การท่องเที่ยว</a></li>
+		  <li class="breadcrumb-item active" aria-current="page">{{detail.title|truncatechars:60}}</li>
+        </ol>
+      </nav>
+    </div>
+<!--================Blog Area =================-->
+   <section class="blog_area single-post-area section-padding" style="padding-top: 0px;">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-8 posts-list">
+               <div class="single-post">
+                  <div class="feature-img">
+                     <img class="img-fluid" src="{{ detail.img.url }}" alt="">
+                  </div>
+                  <div class="blog_details">
+                     <h2>{{ detail.title }}
+                     </h2>
+                     <ul class="blog-info-link mt-3 mb-4">
+                        <li><i class="fa fa-user"></i>Admin</li>
+                        <li><i class="fa fa-clock-o"></i> {{ detail.updated }}</li>
+
+                     </ul>
+                     <p class="excert">
+                       {{ detail.detail|linebreaks }}
+                     </p>
+                     
+                    
+                  </div>
+               </div>
+               
+               
+            
+            </div>
+            <div class="col-lg-4">
+               <div class="blog_right_sidebar">
+                  
+
+                  <aside class="single_sidebar_widget popular_post_widget">
+                     <h3 class="widget_title">แนะนำแหล่งท่องเที่ยว</h3>
+                     <div class="media post_item">
+                        <a href="{% static 'img/elements/g1.jpg'%}" class="img-pop-up">
+							      <div class="single-gallery-image" id="attraction-recommend" style="background: url({% static 'img/elements/g1.jpg'%});"></div>
+						      </a>
+                        <div class="media-body">
+                           <a href="single-blog.html">
+                              <h3>From life was you fish...</h3>
+                           </a>
+                           <p>January 12, 2019</p>
+                        </div>
+                     </div>
+                     <div class="media post_item">
+                         <a href="{% static 'img/elements/g2.jpg'%}" class="img-pop-up">
+							      <div class="single-gallery-image" id="attraction-recommend" style="background: url({% static 'img/elements/g2.jpg'%});"></div>
+						      </a>
+                        <div class="media-body">
+                           <a href="single-blog.html">
+                              <h3>The Amazing Hubble</h3>
+                           </a>
+                           <p>02 Hours ago</p>
+                        </div>
+                     </div>
+                     <div class="media post_item">
+                         <a href="{% static 'img/elements/g3.jpg'%}" class="img-pop-up">
+							      <div class="single-gallery-image" id="attraction-recommend" style="background: url({% static 'img/elements/g3.jpg'%});"></div>
+						      </a>
+                        <div class="media-body">
+                           <a href="single-blog.html">
+                              <h3>Astronomy Or Astrology</h3>
+                           </a>
+                           <p>03 Hours ago</p>
+                        </div>
+                     </div>
+                     <div class="media post_item">
+                         <a href="{% static 'img/elements/g4.jpg'%}" class="img-pop-up">
+							      <div class="single-gallery-image" id="attraction-recommend" style="background: url({% static 'img/elements/g4.jpg'%});"></div>
+						      </a>
+                        <div class="media-body">
+                           <a href="single-blog.html">
+                              <h3>Asteroids telescope</h3>
+                           </a>
+                           <p>01 Hours ago</p>
+                        </div>
+                     </div>
+                  </aside>
+                  
+               </div>
+            </div>
+            
+         </div>
+      </div>
+   </section>
+   <!--================ Blog Area end =================-->
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'attraction/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<style>
+.login-form{
+    padding-bottom: 40px;
+    background-image: url('/static/img/banner/สันหลังมังกร.jpg');    
+}
+
+</style>
+
+<div class="row justify-content-center login-form">
+    <div class="col-md-6 p-5 m-5 contact-form bg-white">
+        <h1>ลงชื่อเข้าใช้งาน</h1>
+        <hr/>
+        <form method="POST" action="" enctype='multipart/form-data' >
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" class="btn btn-danger  btn-block" value="Login" />
+        <p style="text-align:right; padding-top:10px;">ยังไม่มีบัญชีผู้ใช้งาน ? <a href="{% url 'register' %}" class="ml-2">สมัครสมาชิก</a></p>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
