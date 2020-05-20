@@ -12,6 +12,8 @@ class PlanTouristAttraction(models.Model):
 
     def __str__(self):
         return f"{self.quantity} of {self.touristattraction.name}"
+
+    
  
 
 
@@ -25,4 +27,16 @@ class Plan(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_id(self):
+        return self.id
+
+    
+
+    def get_create_plan_url(self):
+        return reverse('plan_create')
+    
+    # def get_absolute_url(self):
+    #     return reverse('attraction:detail', kwargs={'pk': self.plan.touristattractions.id})
+
 

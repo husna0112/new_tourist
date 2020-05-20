@@ -1,21 +1,28 @@
 #from django.contrib.auth.forms import UserCreationForm
 
+from os.path import exists
 
+from django import forms
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-# from news.models import News
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.context_processors import request
 from django.template.loader import render_to_string
 from django.utils import timezone
-from attraction.models import TouristAttraction, Province, Category
+from django.views.generic import ListView, TemplateView
+
+
+from attraction.models import Category, Province, Rank, TouristAttraction
 from news.models import News
 from plan.models import Plan, PlanTouristAttraction
-from django.contrib import messages
-from django.views.generic import TemplateView
+
+from .forms import AddtoPlanForm
+
 # Create your views here.
 
 def is_valid_queryparam(param):
@@ -40,22 +47,27 @@ def filter(request):
     if query:
         attractions_list = attractions_list.filter(
             Q(name__icontains=query)|
-            Q(detail__icontains=query)|
             Q(address__icontains=query)).distinct()
+
 
     return attractions_list
 
 def Home(request):
     allnews = News.objects.order_by('-updated')[:4]
-    context = {'allNews': allnews}
+    context = {
+        'allNews': allnews,
+        'categories': Category.objects.all(),
+        'province': Province.objects.all()
+        }
     return render(request, 'attraction/home.html', context)
 
 
 
-def listAttraction(request):
-    attractions_list = filter(request)
 
-    paginator = Paginator(attractions_list, 20) # Show 21 contacts per page.
+def listAttraction(request):
+    attractions_list = TouristAttraction.objects.all()
+
+    paginator = Paginator(attractions_list, 24) # Show 20 contacts per page.
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -68,24 +80,112 @@ def listAttraction(request):
     return render(request, 'attraction/attractions.html', context)
 
 
+
+
+def search(request):
+
+    attractions_list = filter(request)
+
+        
+    paginator = Paginator(attractions_list, 24) # Show 20 contacts per page.
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'page_obj': page_obj,
+        'categories': Category.objects.all(),
+        'province': Province.objects.all()
+        }
+
+    return render(request, 'attraction/search_results.html', context)
+
+
+
+
+
 def attraction_detail(request, attraction_id):
     detail = get_object_or_404(TouristAttraction, id=attraction_id)
-    #detail = TouristAttraction.objects.get(id=id)
+
+
     context = {
-        'detail': detail,
+        'detail': detail
         }
+
+    # touristattraction = get_object_or_404(TouristAttraction, id=attraction_id)
+    # plan_touristattraction, created = PlanTouristAttraction.objects.get_or_create(
+    #     touristattraction=touristattraction,
+    #     user=request.user,
+    #     planed=False
+    # )
+
+    # if request.GET.get('myplan') != None:
+    #     myplan_id = int(request.GET.get('myplan'))
+    #     print(myplan_id)
+    #     plan_qs = Plan.objects.filter(user=request.user, planed=False).values('id', 'touristattractions')
+    #     if plan_qs.exists():
+    #         for plan in plan_qs:
+    #             print(plan.get('touristattractions'))
+    #             if myplan_id == plan.get('id'):
+    #                 isPlan = Plan.objects.get(id=myplan_id)
+    #                 isPlan.touristattractions.add(plan_touristattraction)
+    #                 messages.info(request, "was added to your plan")
+    #                 return redirect("detail", attraction_id=attraction_id)
+
     return render(request, 'attraction/detail.html', context)
 
-def add_to_plan(request, attraction_id):
+@login_required(login_url='/login/')
+def my_plan(request, attraction_id):
+    detail = get_object_or_404(TouristAttraction, id=attraction_id)
+    plan = Plan.objects.filter(user=request.user)
     touristattraction = get_object_or_404(TouristAttraction, id=attraction_id)
     plan_touristattraction, created = PlanTouristAttraction.objects.get_or_create(
         touristattraction=touristattraction,
         user=request.user,
         planed=False
     )
-    plan_qs = Plan.objects.filter(user=request.user, planed=False)
+    form = AddtoPlanForm(request.POST or None)
 
+    if form.is_valid():
+        obj = form.save(commit=False)
+        obj.user = request.user
+        obj.save()
+        form = AddtoPlanForm()
+        messages.success(request, 'สร้างแผนท่องเที่ยวสำเร็จ')
+        return redirect('my_plan', attraction_id=attraction_id)
+
+    if request.GET.get('myplan') != None:
+        myplan_id = int(request.GET.get('myplan'))
+        print(myplan_id)
+        plan_qs = Plan.objects.filter(user=request.user, planed=False).values('id', 'touristattractions')
+        if plan_qs.exists():
+            for plan in plan_qs:
+                print(plan.get('touristattractions'))
+                if myplan_id == plan.get('id'):
+                    isPlan = Plan.objects.get(id=myplan_id)
+                    isPlan.touristattractions.add(plan_touristattraction)
+                    messages.info(request, "สำเร็จ! บันทึกสถานที่ท่องเที่ยวลงแผนท่องเที่ยวแล้ว")
+                    return redirect("detail", attraction_id=attraction_id)
     
+
+    context = {
+        'detail': detail,
+        'plan': plan,
+        'form': form
+        }
+    return render(request, 'attraction/myplan.html', context)
+
+
+
+def add_to_plan(request, attraction_id):
+    
+    touristattraction = get_object_or_404(TouristAttraction, id=attraction_id)
+    plan_touristattraction, created = PlanTouristAttraction.objects.get_or_create(
+        touristattraction=touristattraction,
+        user=request.user,
+        planed=False
+    )
+    
+    plan_qs = Plan.objects.filter(user=request.user, planed=False)
 
     if plan_qs.exists():
         plan = plan_qs[0]
@@ -107,18 +207,32 @@ def add_to_plan(request, attraction_id):
             user=request.user, planed_date=planed_date)
         plan.touristattractions.add(plan_touristattraction)
         messages.info(request, "was added to your plan2")
-
-
-
-
-    
+ 
     return redirect("detail", attraction_id=attraction_id)
 
 
-class RatingScore(TemplateView):
-    template_name = 'attraction/rating_score.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['name'] = 'PWPK'
-        return context
+
+def rank_country(request):
+    rank = Rank.objects.filter(rank_type="ระดับประเทศ")
+    context = {
+        'rank': rank
+    }
+    return render(request, 'attraction/rank_country.html', context)
+
+
+def rank_province(request):
+    return render(request, 'attraction/rank_province.html')
+
+
+
+def rank_province_item(request, province_id):
+    name = get_object_or_404(Province, id=province_id)
+    rank = Rank.objects.filter(rank_type="ระดับจังหวัด", province_id=province_id)
+
+    context = {
+        'rank': rank,
+        'name':name
+    }
+
+    return render(request, 'attraction/rank_province_select.html', context)

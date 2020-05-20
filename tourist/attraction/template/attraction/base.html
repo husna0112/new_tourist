@@ -4,22 +4,18 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Travelo</title>
+    <title>ระบบแนะนำสถานที่ท่องเที่ยวในประเทศไทยโดยใช้เทคนิคการทำเหมืองข้อความ</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=K2D:300&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
 
-    <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/favicon.png' %}">
+    
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-    {% comment %} <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> {% endcomment %}
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
@@ -33,27 +29,27 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+    <link href="{% static 'css/select2-bootstrap4.css' %}" rel="stylesheet"> <!-- for local development env -->
+
+
 
     
 
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 
-    <style>
-        .dropdown-submenu {
-            position: relative;
-        }
-        
-        .dropdown-submenu .dropdown-menu {
-            top: 0;
-            left: 100%;
-            margin-top: -1px;
-        }
+<style>
 
-        .header-area .main-header-area {
-    background: #fff;
-    background: transparent;
-    padding: 25px 25px 25px 35px;
-    </style>
+#instagram-img{
+    height: 60px;
+    object-fit: cover;
+}
+.logo i:hover {
+    color: #1EC6B6 !important;
+}
+</style>
 
 
 </head>
@@ -70,38 +66,39 @@
                 <div class="container">
                     <div class="header_bottom_border" style="font-size: 20px;">
                         <div class="row align-items-center">
-                            <div class="col-xl-4 col-lg-4">
+                            <div class="col-xl-1 col-lg-1">
                                 <div class="logo">
                                     <a href="/">
-                                        <strong style="color:#FF4A52;">หน้าหลัก</strong>
+                                        {% comment %} <strong style="color:#FF4A52;">หน้าหลัก</strong> {% endcomment %}
+                                    <i class="fa fa-home fa-fw" style="font-size: 30px; color: #FF4A52;"></i>
                                     </a>
                                 </div>
                             </div>
-                            <div class="col-xl-8 col-lg-8">
+                            <div class="col-xl-11 col-lg-11">
                                 <div class="main-menu d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
                                             <li><a class="active" href="/attraction">แหล่งท่องเที่ยว</a></li>
-                                            <li><a class="" href="#">Destination</a></li>
-                                            <li><a href="#">Visualization <i class="ti-angle-down"></i></a>
+                                            <li><a href="/rank_country">อันดับสถานที่ท่องเที่ยวยอดนิยม</a></li>
+                                            <li><a href="/rank_province">สถานที่ท่องเที่ยวยอดนิยมในแต่ละจังหวัด</a></li>
+                                            {% comment %} <li><a href="#">Visualization <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
                                                     <li><a href="destination_details.html">ระดับประเทศ</a></li>
                                                     <li><a href="elements.html">ระดับจังหวัด</a></li>
                                                 </ul>
-                                            </li>
+                                            </li> {% endcomment %}
                                             <li><a href="/news">ข่าวสาร</a></li>
                                             
                                             {% if request.user.is_authenticated %}
                                             <li><a href="/plan">My Plan</a></li>
-                                            <li><a href="#"><i class="fa fa-user"></i>{{request.user.username}}<i class="ti-angle-down"></i></a>
+                                            <li><a href="#"><i class="fa fa-user fa-fw" style="font-size:14px;"></i>{{request.user.username}}<i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a href="/profile">My account</a></li>
                                                     <li><a href="/logout">Logout</a></li>
                                                 </ul>
                                             </li>
                                             {% else %}
-                                            <li><a href="/register"><i class="fa fa-sign-in"></i>สมัครสมาชิก</a></li>
-                                            <li><a href="/login"><i class="fa fa-sign-in" style="font-size:16px;"></i>ลงชื่อเข้าใช้งาน</a></li>
+                                            <li><a href="/register">สมัครสมาชิก</a></li>
+                                            <li><a href="/login"><i class="fa fa-sign-in fa-fw" style="font-size:16px;"></i>ลงชื่อเข้าใช้งาน</a></li>
                                             
                                             {% endif %}
 
@@ -110,6 +107,11 @@
                                     </nav>
                                 </div>
 
+                            </div>
+                            <div class="seach_icon">
+                                <a data-toggle="modal" data-target="#exampleModalCenter" href="#">
+                                    <i class="fa fa-search"></i>
+                                </a>
                             </div>
 
 
@@ -151,18 +153,15 @@
         <div class="footer_top">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-4 col-md-6 col-lg-4 ">
+                    <div class="col-xl-3 col-md-6 col-lg-4 ">
                         <div class="footer_widget">
-                            <div class="footer_logo">
-                                <a href="#">
-                                    <img src="{%  static 'img/footer_logo.png' %}" alt="">
-                                </a>
-                            </div>
-                            <p>5th flora, 700/D kings road, green <br> lane New York-1782 <br>
-                                <a href="#">+10 367 826 2567</a> <br>
-                                <a href="#">contact@carpenter.com</a>
+                            
+                            <p >ระบบแนะนำสถานที่ท่องเที่ยวในประเทศไทย <br> โดยใช้เทคนิคการทำเหมืองข้อความ <br>
+
+                            <a>System for Suggesting Tourist Attractions in Thailand Using Text Mining</a>
                             </p>
-                            <div class="socail_links">
+
+                            {% comment %} <div class="socail_links">
                                 <ul>
                                     <li>
                                         <a href="#">
@@ -190,45 +189,83 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> {% endcomment %}
+
 
                         </div>
                     </div>
-                    <div class="col-xl-2 col-md-6 col-lg-2">
+                    <div class="col-xl-3 col-md-6 col-lg-2">
                         <div class="footer_widget">
                             <h3 class="footer_title">
-                                Company
+                                ประเภทสถานที่ท่องเที่ยว
                             </h3>
                             <ul class="links">
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">About</a></li>
-                                <li><a href="#"> Gallery</a></li>
-                                <li><a href="#"> Contact</a></li>
+                                <li><a href="/search/?q=&province=จังหวัด&category=ทะเลและชายหาด">ทะเลและชายหาด</a></li>
+                                <li><a href="/search/?q=&province=จังหวัด&category=น้ำตก">น้ำตก</a></li>
+                                <li><a href="/search/?q=&province=จังหวัด&category=เที่ยวท้องถิ่น"> เที่ยวท้องถิ่น</a></li>
+                                <li><a href="/search/?q=&province=จังหวัด&category=วัด"> วัด</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6 col-lg-3">
                         <div class="footer_widget">
                             <h3 class="footer_title">
-                                Popular destination
+                                ปลายทางยอดนิยม
                             </h3>
                             <ul class="links double_links">
-                                <li><a href="#">Indonesia</a></li>
-                                <li><a href="#">America</a></li>
-                                <li><a href="#">India</a></li>
-                                <li><a href="#">Switzerland</a></li>
-                                <li><a href="#">Italy</a></li>
-                                <li><a href="#">Canada</a></li>
-                                <li><a href="#">Franch</a></li>
-                                <li><a href="#">England</a></li>
+                                <li><a href="/search/?province=กรุงเทพฯ">กรุงเทพฯ</a></li>
+                                <li><a href="/search/?province=ภูเก็ต">ภูเก็ต</a></li>
+                                <li><a href="/search/?province=แม่ฮ่องสอน">แม่ฮ่องสอน</a></li>
+                                <li><a href="/search/?province=เลย">เลย</a></li>
+                                <li><a href="/search/?province=เชียงใหม่">เชียงใหม่</a></li>
+                                <li><a href="/search/?province=สุราษฎร์ธานี">สุราษฎร์ธานี</a></li>
+                                <li><a href="/search/?province=สงขลา">สงขลา</a></li>
+                                <li><a href="/search/?province=ชลบุรี">ชลบุรี</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6 col-lg-3">
                         <div class="footer_widget">
                             <h3 class="footer_title">
-                                Instagram
+                                รูปภาพ
                             </h3>
+                            <div class="instagram_feed">
+                                <div class="single_insta">
+                                    <a href="/attraction/910">
+                                        <img src="{% static 'img/instagram/ancient-architecture-asia-buddhism-130158.jpg' %}" id="instagram-img" alt="">
+                                    </a>
+                                </div>
+                                <div class="single_insta">
+                                    <a href="/attraction/147">
+                                        <img src="{% static 'img/instagram/D8v4ATJV4AE-tRZ.png' %}" id="instagram-img" alt="">
+
+                                    </a>
+                                </div>
+                                <div class="single_insta">
+                                    <a href="/attraction/1071">
+                                        <img src="{% static 'img/instagram/ESWVxrpUwAYmasi.png' %}" id="instagram-img" alt="">
+
+                                    </a>
+                                </div>
+                                <div class="single_insta">
+                                    <a href="/attraction/4629">
+                                        <img src="{% static 'img/instagram/photo-of-wat-arun-temple-1031659.jpg' %}" id="instagram-img" alt="">
+
+                                    </a>
+                                </div>
+                                <div class="single_insta">
+                                    <a href="/attraction/4132">
+                                        <img src="{% static 'img/instagram/robin-noguier-sydwCr54rf0-unsplash.jpg' %}" id="instagram-img" alt="">
+
+                                    </a>
+                                </div>
+                                <div class="single_insta">
+                                    <a href="/attraction/4596">
+                                        <img src="{% static 'img/instagram/florian-wehde-fwtPzBjW-A0-unsplash.jpg' %}" id="instagram-img" alt="">
+
+                                    </a>
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -242,11 +279,11 @@
   <div class="modal fade custom_search_pop" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
-        <form method='GET' action="">
-        <div class="serch_form">
-            <input type="text" placeholder="Search" name="q" value='{{ request.GET.q }}'/>
-            <button type="submit">search</button>
-        </div>
+        <form method='GET' action="{% url 'search' %}">
+            <div class="serch_form">
+                <input type="text" placeholder="Search" name="q" value='{{ request.GET.q }}'/>
+                <button type="submit">search</button>
+            </div>
         </form>   
 
          
@@ -262,14 +299,7 @@
     <script src="{% static 'js/vendor/modernizr-3.5.0.min.js' %}"></script>
     <script src="{% static 'js/vendor/jquery-1.12.4.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
-
-    
-    {% comment %} <script src="{% static 'js/bootstrap.min.js' %}"></script> {% endcomment %}
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-   
-    
-    
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
     <script src="{% static 'js/ajax-form.js' %}"></script>
@@ -286,18 +316,11 @@
     <script src="{% static 'js/gijgo.min.js' %}"></script>
     <script src="{% static 'js/slick.min.js' %}"></script>
 
+    <!-- select2 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
-    {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css"> {% endcomment %}
-
-
-
-
-
-
+    <!-- select2-bootstrap4-theme -->
+    <script src="{% static 'js/script_select2.js' %}"></script>
 
 
     <!--contact js-->
@@ -321,14 +344,9 @@
             });
         }, 2000);
         
-        function myFunction() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
+        $( "#dropdown" ).select2({
+    theme: "bootstrap"
+});
     </script>
 
 

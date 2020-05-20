@@ -1,0 +1,84 @@
+{% extends 'attraction/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<style>
+.boxed-btn3 {
+padding: 8px 18px;
+}
+
+.boxed-btn4 {
+padding: 8px 18px;
+}
+</style>
+
+<div class="travel_variation_area bg-light" style="padding-top: 30px">
+  <div class="travel_variation_area" style="padding: 20px 0px 50px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-sm-12 mt-5">
+          <h2 class="section_title">เลือกแผนการท่องเที่ยวที่ต้องการ</h2>
+                                <hr/>
+            <form method='get' action="{% url 'my_plan' detail.id %}" enctype='multipart/form-data'>
+              {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 mt-4">
+                      <select class="form-control" name="myplan" id="myplan">
+                        {% for plan in plan %}
+                        <option value={{plan.id}}>{{plan.name}}</option>
+                        {% empty %}
+                        <option>กรุณาสร้างแผนใหม่</option>
+                        {% endfor %}
+                        </select>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 mt-3">
+                        <button type="submit" class="boxed-btn4 circle col-12">
+                        <i class="fa fa-heart"> </i> เพิ่มลงแผนการท่องเที่ยว
+                        </button>
+                    </div>
+                  </div>
+                  
+                </form>
+        
+        </div>
+        <div class="col-md-1 col-sm-3 mt-5">
+        <p>หรือ</p>
+        </div>
+        <div class="col-md-5 col-sm-12 mt-5">
+          <h2>สร้างแผนท่องเที่ยว</h2>
+                      <hr/>
+                      <form method="POST" action="{% url 'my_plan' detail.id %}" enctype='multipart/form-data' >
+                      {% csrf_token %}
+                      {{ form|crispy }}
+                      <button type="submit" class="boxed-btn3 col-12"><i class="fa fa-plus fa-fw"></i>สร้างแผน</button>
+                      
+                      </form>
+        </div>
+
+              
+                
+              </div><!--row-->
+
+
+                {% comment %} <div class="row justify-content-center bg-light ">
+                  <div class="col-md-6 p-5 contact-form">
+                      <h1>สร้างแผนท่องเที่ยว</h1>
+                      <hr/>
+                      <form method="POST" action="{% url 'my_plan' detail.id %}" enctype='multipart/form-data' >
+                      {% csrf_token %}
+                      {{ form|crispy }}
+                      <button type="submit" class="btn btn-danger btn-block"><i class="fa fa-plus"></i>สร้างแผน</button>
+                      
+                      </form>
+                  </div>
+    
+                </div> {% endcomment %}
+              </div>
+
+</div>
+
+</div>
+
+{% endblock %}

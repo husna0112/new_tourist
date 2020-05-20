@@ -3,9 +3,10 @@ from .models import News
 
 # Register your models here.
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ['title', 'detail', 'updated', 'timestamp']
+    list_display = ['title', 'updated', 'timestamp']
     list_per_page = 20
 
     list_filter = ['updated', 'timestamp']
     search_fields = ['title', 'detail']
+    autocomplete_fields = ['touristattraction']
 admin.site.register(News, NewsAdmin)

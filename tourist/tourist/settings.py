@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'attraction',
-    'plan',
     'authen',
+    'plan',
     'crispy_forms',
     'news',
 
@@ -134,6 +134,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+ALLOW_UNICODE_SLUGS = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')

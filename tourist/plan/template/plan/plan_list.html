@@ -6,7 +6,7 @@
 
 
 {% block content %}
-    <div class="travel_variation_area" style="padding-top: 30px">
+    <div class="travel_variation_area bg-light" style="padding-top: 30px">
         
         <div class="container">
           
@@ -28,14 +28,14 @@
                 <div class="row align-items-sm-center">
                   <div class="col-md-5">
                     <div class="blog_area">
-                      <a class="md-0" href="{{ plan.id }}"><h4><strong>{{ plan.name }}</strong></h4></a>
+                      <a class="md-0" href="{{ plan.id}}"><h4><strong>{{ plan.name }}</strong></h4></a>
                     </div>
                   </div>
                   <div class="col-sm-7 col-md-3">
                     <p><span class="font-size-1">{{ plan.detail|truncatewords:10 }}</span></p>
                   </div>
                   <div class="col-md-3 text-lg-right">
-                    <a class="btn btn-outline-info border transition-3d-hover" href="{{ plan.id }}/edit">Edit</a>
+
                     <a class="show-form-delete btn btn-outline-danger transition-3d-hover" href="{{ plan.id }}/delete">Delete</a>
                   </div>
                 </div>
@@ -67,14 +67,7 @@
     </div>
 
 
-    <!-- Modal -->
-    <div id="myModal" class="modal" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          {% include 'plan/plan_delete.html' %}
-        </div>
-      </div>
-    </div>
+ 
 
 
 {% endblock content %}

@@ -2,22 +2,33 @@ from django.contrib import admin
 from .models import TouristAttraction, Category, Province, Rank
 # Register your models here.
 class TouristAttractionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category', 'province', 'img']
+    list_display = ['name', 'img']
     list_editable = ['img']
+    
 
     list_per_page = 30
 
-    list_filter = ['province']
+    list_filter = ['category', 'province']
     search_fields = ['name', 'detail']
+    autocomplete_fields = ['province', 'category']
 
 admin.site.register(TouristAttraction, TouristAttractionAdmin)
 
-admin.site.register(Category)
-admin.site.register(Province)
+
+class CategoryAdmin(admin.ModelAdmin):
+    search_fields = ['name']
+admin.site.register(Category, CategoryAdmin)
+
+class ProvinceAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+    search_fields = ['name', 'slug']
+    list_editable = ['slug']
+admin.site.register(Province, ProvinceAdmin)
 
 class RankAdmin(admin.ModelAdmin):
     list_display = ['rank_number', 'rank_type', 'touristattraction', 'get_province']
     list_per_page = 20
+    autocomplete_fields = ['touristattraction']
 
     def get_province(self, obj):
         return obj.touristattraction.province

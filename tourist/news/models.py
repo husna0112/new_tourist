@@ -7,10 +7,7 @@ from django.db.models import Q
 class News(models.Model):
     title = models.CharField(max_length=200)
     detail = models.TextField(null=True, blank=True)
-    img = models.ImageField(upload_to='news', null=True, blank=True,
-                            width_field="width_field", height_field="height_field")
-    height_field = models.IntegerField(default=100)
-    width_field = models.IntegerField(default=100)
+    img = models.ImageField(upload_to='news', null=True, blank=True)
     touristattraction = models.ForeignKey(TouristAttraction, on_delete=models.CASCADE, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True, null=True)

@@ -90,18 +90,16 @@
 
 
 
-
+<!--START popular_places_area-->
 <div class="popular_places_area">
-            <div class="container">
-                <form method='GET' action="">
+        <div class="container-fluid">
+                {% comment %} <form method='GET' action="">
                     <input class="search_input" type='text' name='q' placeholder='search' value='{{ request.GET.q }}'/>
-
-                    
-                </form>
-            </div>  
+                </form> {% endcomment %}
+            
             
             <div class="row">    
-                <div class="col-lg-4" style="height: 580px; overflow-y: scroll">
+                <div class="col-lg-4" style="height: 620px; overflow-y: scroll">
                     <div class="single_place head">
                         <div class="place_info">
                             <h4><strong>{{ detail.name }}</strong></h4>
@@ -118,13 +116,18 @@
                                 <img id="attraction-img" src="{{ place.touristattraction.img }}" alt="">
                             </div>
                             <div class="place_info">
-                                <a href="{{ place.get_absolute_url }}"><h3>{{ place.touristattraction.name }}</h3></a>
+                                <a href="{{ place.touristattraction.get_absolute_url }}" target="_blank" >
+                                <h3>{{ place.touristattraction.name }}</h3>
+                                </a>
                                         
                                 <p>{{ place.touristattraction.province }}</p>
                                         
-                                <p><i class="fa fa-search"></i>{{ place.touristattraction.category }}</p>
-                               {% comment %} {% include 'attraction/plan_delete.html' %} 
-                               <a data-toggle="modal" data-target="#deleteattraction" href="#"><i class="fa fa-trash-o"></i></a> {% endcomment %}
+                                {% comment %} <p><i class="fa fa-search"></i>{{ place.touristattraction.category }}</p>
+
+                                <p>{{ place.touristattraction.lat }}</p>
+                                <p>{{ place.touristattraction.lng }}</p> {% endcomment %}
+                                {% comment %} <button class="btn genric-btn info-border circle" data-toggle="modal" data-target="#deleteitem" href="{% url 'delete_item' %}"> <i class="fa fa-star"> </i> delete</button>  {% endcomment %}
+                               <a data-toggle="modal" data-target="#deleteattraction" href="#"><i class="fa fa-trash-o"></i></a>
                             
                             </div>
                         </div>
@@ -142,46 +145,59 @@
                     
                         
                       
-                <br/>{% for page_obj in detail.page_obj.all %}{{ page_obj }}<br/>{% endfor %}    
+                {% comment %} <br/>{% for page_obj in detail.page_obj.all %}{{ page_obj }}<br/>{% endfor %}     {% endcomment %}
                 </div>
 
 
                 <div class="col-lg-8">
                     <!--MAP-->
-            <div class="">
-                <div id="map" style="height: 580px; position: relative; overflow: hidden;">
-                </div>
-                    <script>
-                        function initMap() {
-                            var uluru = {
-                                lat: -25.363,
-                                lng: 131.044
-                            };
-                            
-                            var map = new google.maps.Map(document.getElementById('map'), {
-                                center: {
-                                    lat: -31.197,
-                                    lng: 150.744
-                                },
-                                zoom: 9,
-                                
-                            });
-                        }
-                    </script>
-                    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC29LAeniiLeMliJJ4SJsPff9vFLii2b3k&callback=initMap">
-                    </script>
+                    <div class="">
+                        <div id="map" style="height: 620px; position: relative; overflow: hidden;">
+                        </div>
+                            <script>
+                                function initMap() {
+                                    {% for place in attractions %} 
+
+                                    var uluru = {
+                                        
+                                        lat: {{ place.touristattraction.lat }},
+                                        lng: {{ place.touristattraction.lng }}
+                                        
+                                    };
+                                    {% endfor %}
+
+                                    var map = new google.maps.Map(document.getElementById('map'), {
+                                        zoom: 15,
+                                        center: uluru
+                                        
+                                    });
+
+                                    var marker = new google.maps.Marker({position: uluru, map: map});
+                                }
+                            </script>
+                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC29LAeniiLeMliJJ4SJsPff9vFLii2b3k&callback=initMap">
+                            </script>
     
 
-            </div>
-        <!--END MAP-->
+                    </div>
+                    <!--END MAP-->
 
-                </div>
-            </div>
-        
+                </div><!--END col-lg-8 -->
+            </div><!--END row -->
+        </div><!--END container -->
 </div>
+<!--END popular_places_area-->
 
 
-
+{% comment %} <!-- Modal -->
+<div id="deleteitem" class="modal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    {% include 'plan/plan_delete_item.html' %}
+    </div>
+  </div>
+</div>
+<!-- end Modal --> {% endcomment %}
 
 
 

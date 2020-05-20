@@ -9,15 +9,47 @@
     object-fit: cover;
     }
 
+    .where_togo_area .search_wrap .input_field input {
+    width: 100%;
+    height: 50px;
+    background: #fff;
+    border: 1px solid #363E52;
+    padding-left: 15px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: #000;
+}
+
+.boxed-btn4 {
+    background: #FF4A52;
+    color: #fff;
+    display: inline-block;
+    padding: 13px 39px;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    border: 0;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    text-align: center;
+    text-transform: capitalize;
+    -webkit-transition: 0.3s;
+    -moz-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.popular_places_area .single_place:hover .place_info h4 {
+    color: #FF4A52;
+}
+
 
 </style>
 
 
-
-
-
-
-<!-- bradcam_area  -->
+    <!-- bradcam_area  -->
     <div class="bradcam_area bradcam_bg_2">
         <div class="container">
             <div class="row">
@@ -32,109 +64,53 @@
     </div>
     <!--/ bradcam_area  -->
 
-  
 
-
-
-
-
-<div class="container">
-                            <form method='GET' action="">
-                            <input class="single_select" type='text' name='q' placeholder='search' value='{{ request.GET.q }}'/>
-                            <button type='submit'>Search<button>
-                            </form>
-                    </div>
-             
-
-<div class="col-lg-4">
-<aside class="single_sidebar_widget search_widget">
-                     <form action="#">
-                        <div class="form-group">
-                           <div class="input-group mb-3">
-                              <input type="text" class="form-control" placeholder='Search Keyword'
-                                 onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
-                              <div class="input-group-append">
-                                 <button class="btn" type="button"><i class="ti-search"></i></button>
-                              </div>
-                           </div>
-                        </div>
-                        <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                           type="submit">Search</button>
-                     </form>
-                  </aside>
-</div>
- 
-
-
-
-
-    <div class="filter bg-white" style="padding-top: 50px;">
+    <!-- where_togo_area_start  -->
+    <div class="where_togo_area">
         <div class="container">
-            <div class="row justify-content-md-center">
+            <div class="row align-items-center">
+                <div class="col-lg-3">
+                    <div class="form_area">
+                        <h3>กรอกคำค้นหาที่ต้องการ</h3>
+                    </div>
+                </div>
                 <div class="col-lg-9">
-                    <div class="filter_result_wrap">
-                        <h4>Filter Result</h4>
-                        <form method="GET" action="">
-                        <div class="filter_bordered">
-                            <div class="filter_inner">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="single_select">
-                                            <select id="province" name="province" size="1" autocomplete="off">
-                                                <option data-display="{{ request.GET.province }}">จังหวัด</option>
-                                                {% for province in province %}
-                                                <option value="{{province}}">{{province}}</option>
-                                                {% endfor %}
-                                              </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12">
-                                    
-                                        <div class="single_select">
-
-                                            <select id="category" name="category">
-                                                <option data-display="{{ request.GET.category }}">ประเภท</option>
-                                                {% for cat in categories %}
-                                                <option value="{{cat}}">{{cat}}</option>
-                                                {% endfor %}
-                                            </select>
-
-                                        </div>
-                                    </div>
-                                    
-                                
-                                    
-                                </div>
+                    <div class="search_wrap">
+                        <form method="GET" class="search_form" action="{% url 'search' %}">
+                            <div class="input_field">
+                                <input class="form-control" type='text' name='q' placeholder='ค้นหา' value='{{ request.GET.q }}'/>
                             </div>
-
-                            <div class="reset_btn">
-                                <button class="boxed-btn4" type="submit">Filter</button>
+                            <div class="input_field ">
+                                <select id="province" name="province" size="1" autocomplete="off">
+                                    <option data-display="{{ request.GET.province }}">จังหวัด</option>
+                                    {% for province in province %}
+                                    <option value="{{province}}">{{ province }}</option>
+                                    {% endfor %}
+                                    </select>
                             </div>
-                        </div>
+                            <div class="input_field">
+                                <select id="category" name="category">
+                                    <option data-display="{{ request.GET.category }}">ประเภท</option>
+                                    {% for cat in categories %}
+                                    <option value="{{cat}}">{{cat}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="search_btn">
+                                <button class="boxed-btn4" type="submit" >Search</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
-    
-
-
-
-
-
-
-
-
+    <!-- where_togo_area_end  -->
+                
 
 
     <div class="popular_places_area bg-light" style="padding-top: 80px; padding-bottom: 100px;">
         <div class="container">
-
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-light" style="padding-left: 0px;">
                 <li class="breadcrumb-item"><a href="/"><i class="fa fa-home"></i> หน้าหลัก</a></li>
@@ -150,13 +126,13 @@
                         <div class="col-lg-3 col-md-3">
                             <div class="single_place">
                                 <div class="thumb">
-                                    <a href="{{ place.get_absolute_url }}"><img id="attraction-img" src="{{ place.img }}" alt=""></a>
-                                    <a href="#" class="prise"><i class="fa fa-heart"></i></a>
+                                    <a href="{{ place.get_absolute_url }}"><img id="attraction-img" src="{% if place.img %}{{ place.img }}{% else %}{% static 'img/destination/5.png' %}{% endif %}" alt=""></a>
+                                    {% comment %} <a href="#" class="prise"><i class="fa fa-heart"></i></a> {% endcomment %}
                                 </div>
                                 <div class="place_info">
-                                    <a href="{{ place.get_absolute_url }}"><h3>{{ place.name }}</h3></a>
+                                    <a href="{{ place.get_absolute_url }}"><h4>{{ place.name }}</h4></a>
                                     <p>{{place.province}}</p>
-                                    <div class="rating_days d-flex justify-content-between">
+                                    {% comment %} <div class="rating_days d-flex justify-content-between">
                                         <span class="d-flex justify-content-right align-items-center">
                                             <i class="fa fa-star"></i> 
                                             <i class="fa fa-star"></i> 
@@ -166,7 +142,7 @@
                                             <a href="#">(20 Review)</a>
                                         </span>
 
-                                    </div>
+                                    </div> {% endcomment %}
                                 </div>
                             </div>
                         </div>
@@ -248,8 +224,6 @@
         </div>
     </div>
             
-
-
 
 
 

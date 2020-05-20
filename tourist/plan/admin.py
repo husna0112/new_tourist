@@ -3,13 +3,17 @@ from .models import Plan, PlanTouristAttraction
 
 
 # Register your models here.
+class PlanAdmin(admin.ModelAdmin):
+    list_display = ['name', 'user']
+    list_per_page = 20
+    search_fields = ['name']
 
-admin.site.register(Plan)
-admin.site.register(PlanTouristAttraction)
+admin.site.register(Plan, PlanAdmin)
+
+class PlanTouristAttractionAdmin(admin.ModelAdmin):
+    list_display = ['touristattraction', 'user']
+    list_per_page = 20
+
+admin.site.register(PlanTouristAttraction, PlanTouristAttractionAdmin)
 
 
-# class PlanTouristAttractionAdmin(admin.ModelAdmin):
-#     list_display = ['user', 'touristattraction']
-#     list_per_page = 20
-
-# admin.site.register(PlanTouristAttraction, PlanTouristAttractionAdmin)

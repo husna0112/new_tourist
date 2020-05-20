@@ -10,7 +10,7 @@
 }
 
 </style>
-
+<div class="container-fluid">
 <div class="row justify-content-center register-form">
     <div class="col-md-6 p-5 m-3 contact-form bg-white">
         <h1>ลงทะเบียนผู้ใช้งาน</h1>
@@ -18,10 +18,16 @@
         <form method="POST" action="" enctype='multipart/form-data' >
         {% csrf_token %}
         {{ form|crispy }}
+
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+
+        
         <input type="submit" class="btn btn-danger  btn-block" value="Register" />
-        <p style="text-align:right; padding-top:10px;">มีบัญชีผู้ใช้อยู่แล้ว? <a href="{% url 'login' %}" class="ml-2">ลงชื่อเข้าใช้งาน</a></p>
+        <p style="text-align:right; padding-top:10px;">มีบัญชีผู้ใช้อยู่แล้ว? <a href="{% url 'login' %}{% if request.GET.next %}?next={{ request.GET.next }}{% endif %}" class="ml-2">ลงชื่อเข้าใช้งาน</a></p>
         </form>
     </div>
 </div>
-
+</div>
 {% endblock %}

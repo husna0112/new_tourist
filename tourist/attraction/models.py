@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from decimal import Decimal
 from django.db.models import Q
+from django.conf import settings
 # Create your models here.
 
 class Category(models.Model):
@@ -9,13 +10,19 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    
 
 class Province(models.Model):
     name = models.CharField(max_length=50)
+    slug = models.SlugField(unique=True, null=True, blank=True, allow_unicode=True, max_length=50)
 
     def __str__(self):
         return self.name
+        
+    def create_slug(instance, new_slug=None):
+        slug = slugify(instance.name, allow_unicode=True)
+
 
 
 class TouristAttraction(models.Model):
@@ -41,6 +48,12 @@ class TouristAttraction(models.Model):
     def get_add_to_plan_url(self):
         return reverse('add-to-plan', args=[str(self.id)])
 
+    def get_test_plan_url(self):
+        return reverse('my_plan', args=[str(self.id)])
+    
+    # def get_search_url(self):
+    #     return reverse('search')
+
 class Rank(models.Model):
     rank_number = models.IntegerField()
     rank_province = 'ระดับจังหวัด'
@@ -49,9 +62,12 @@ class Rank(models.Model):
         (rank_province, 'ระดับจังหวัด'),
         (rank_country, 'ระดับประเทศ')
     )
-    rank_type = models.CharField(max_length=50, choices=TYPE2, default=rank_country)
+    rank_type = models.CharField(max_length=50, choices=TYPE2, default=rank_province)
     touristattraction = models.ForeignKey(TouristAttraction, on_delete=models.CASCADE)
+    province = models.ForeignKey(Province, on_delete=models.CASCADE, null=True, blank=True)
 
 
     def __str__(self):
         return self.rank_type
+
+

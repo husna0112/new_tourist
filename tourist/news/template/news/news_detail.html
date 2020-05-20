@@ -11,9 +11,10 @@
 }
 </style>
 
+<div class="bg-light">
 <div class="container">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb" style="background-color: #fff; padding-left: 0px; padding-top: 29px;">
+        <ol class="breadcrumb" style="background-color: #f8f9fa; padding-left: 0px; padding-top: 29px;">
           <li class="breadcrumb-item"><a href="/"><i class="fa fa-home"></i> หน้าหลัก</a></li>
           <li class="breadcrumb-item"><a href="/news">ข่าวสารประชาสัมพันธ์การท่องเที่ยว</a></li>
 		  <li class="breadcrumb-item active" aria-current="page">{{detail.title|truncatechars:60}}</li>
@@ -40,9 +41,13 @@
                      <p class="excert">
                        {{ detail.detail|linebreaks }}
                      </p>
-                     
-                    
+                     {% if detail.touristattraction %}
+                     <div class="attraction">
+                     <a href="{{ detail.touristattraction.get_absolute_url}} " target="_blank" >ดูข้อมูลเพิ่มเติม: {{detail.touristattraction.name}}</a>
+                     </div>
+                     {% endif %}
                   </div>
+                  
                </div>
                
                
@@ -54,50 +59,19 @@
 
                   <aside class="single_sidebar_widget popular_post_widget">
                      <h3 class="widget_title">แนะนำแหล่งท่องเที่ยว</h3>
+                     {% for rank in rank %}
                      <div class="media post_item">
-                        <a href="{% static 'img/elements/g1.jpg'%}" class="img-pop-up">
-							      <div class="single-gallery-image" id="attraction-recommend" style="background: url({% static 'img/elements/g1.jpg'%});"></div>
+                        <a href="{{rank.touristattraction.img}}" class="img-pop-up">
+							      <div class="single-gallery-image" id="attraction-recommend" style="background: url({{rank.touristattraction.img}});"></div>
 						      </a>
                         <div class="media-body">
-                           <a href="single-blog.html">
-                              <h3>From life was you fish...</h3>
+                           <a href="{{rank.touristattraction.get_absolute_url}}">
+                              <h3>{{rank.touristattraction}}</h3>
                            </a>
-                           <p>January 12, 2019</p>
+                           <p>{{rank.touristattraction.province}}</p>
                         </div>
                      </div>
-                     <div class="media post_item">
-                         <a href="{% static 'img/elements/g2.jpg'%}" class="img-pop-up">
-							      <div class="single-gallery-image" id="attraction-recommend" style="background: url({% static 'img/elements/g2.jpg'%});"></div>
-						      </a>
-                        <div class="media-body">
-                           <a href="single-blog.html">
-                              <h3>The Amazing Hubble</h3>
-                           </a>
-                           <p>02 Hours ago</p>
-                        </div>
-                     </div>
-                     <div class="media post_item">
-                         <a href="{% static 'img/elements/g3.jpg'%}" class="img-pop-up">
-							      <div class="single-gallery-image" id="attraction-recommend" style="background: url({% static 'img/elements/g3.jpg'%});"></div>
-						      </a>
-                        <div class="media-body">
-                           <a href="single-blog.html">
-                              <h3>Astronomy Or Astrology</h3>
-                           </a>
-                           <p>03 Hours ago</p>
-                        </div>
-                     </div>
-                     <div class="media post_item">
-                         <a href="{% static 'img/elements/g4.jpg'%}" class="img-pop-up">
-							      <div class="single-gallery-image" id="attraction-recommend" style="background: url({% static 'img/elements/g4.jpg'%});"></div>
-						      </a>
-                        <div class="media-body">
-                           <a href="single-blog.html">
-                              <h3>Asteroids telescope</h3>
-                           </a>
-                           <p>01 Hours ago</p>
-                        </div>
-                     </div>
+                     {% endfor %}
                   </aside>
                   
                </div>
@@ -107,5 +81,5 @@
       </div>
    </section>
    <!--================ Blog Area end =================-->
-
+</div>
 {% endblock %}
