@@ -25,7 +25,7 @@ SECRET_KEY = 'u(py)7n(@x22qp-c25u!$*itk*r3l71l^pp9%^u9^t-8o#be$n'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

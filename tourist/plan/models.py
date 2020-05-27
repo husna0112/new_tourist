@@ -35,6 +35,13 @@ class Plan(models.Model):
 
     def get_create_plan_url(self):
         return reverse('plan_create')
+
+    def get_place_delete(self):
+        return reverse('place_delete', args=[str(self.id)])
+
+    def get_plan_detail(self):
+        return reverse('plan_detail', args=[str(self.id)])
+
     
     # def get_absolute_url(self):
     #     return reverse('attraction:detail', kwargs={'pk': self.plan.touristattractions.id})

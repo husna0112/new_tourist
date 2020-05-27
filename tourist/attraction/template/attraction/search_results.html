@@ -67,10 +67,19 @@
                             </div>
                             <div class="input_field ">
                                 <select id="province" name="province" size="1" autocomplete="off">
+                                    
                                     <option data-display="{{ request.GET.province }}">{% if request.GET.province %}{{ request.GET.province }}{% else %}จังหวัด{% endif %}</option>
+                                    
+                                    {% if request.GET.province %}
+                                    <option value="">ทุกจังหวัด</option>
                                     {% for province in province %}
-                                    <option value="{{province}}">{{province}}</option>
+                                        <option value="{{province}}">{{province}}</option>   
                                     {% endfor %}
+                                    {% else %}
+                                    {% for province in province %}
+                                        <option value="{{province}}">{{province}}</option>   
+                                    {% endfor %}
+                                    {% endif %}
 
                                     </select>
                             </div>
@@ -79,9 +88,18 @@
                                     <option data-display="{{ request.GET.category }}">
                                     {% if request.GET.category %}{{ request.GET.category }}{% else %}ประเภท{% endif %}
                                     </option>
-                                    {% for cat in categories %}
-                                    <option value="{{cat}}">{{cat}}</option>
-                                    {% endfor %}
+
+                                    {% if request.GET.category %}
+                                        <option value="">ทุกประเภท</option>
+                                        {% for cat in categories %}
+                                            <option value="{{cat}}">{{cat}}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% for cat in categories %}
+                                            <option value="{{cat}}">{{cat}}</option>
+                                        {% endfor %}
+                                    {% endif %}
+
                                 </select>
                             </div>
                             <div class="search_btn">

@@ -2,8 +2,8 @@ from django.contrib import admin
 from .models import TouristAttraction, Category, Province, Rank
 # Register your models here.
 class TouristAttractionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'img']
-    list_editable = ['img']
+    list_display = ['name', 'province', 'category']
+
     
 
     list_per_page = 30
@@ -27,6 +27,7 @@ admin.site.register(Province, ProvinceAdmin)
 
 class RankAdmin(admin.ModelAdmin):
     list_display = ['rank_number', 'rank_type', 'touristattraction', 'get_province']
+    list_filter = ['rank_type', 'province']
     list_per_page = 20
     autocomplete_fields = ['touristattraction']
 

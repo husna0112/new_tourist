@@ -93,9 +93,13 @@
 <!--START popular_places_area-->
 <div class="popular_places_area">
         <div class="container-fluid">
-                {% comment %} <form method='GET' action="">
-                    <input class="search_input" type='text' name='q' placeholder='search' value='{{ request.GET.q }}'/>
-                </form> {% endcomment %}
+            {% comment %} <div class="row">
+				<div class="col-md-12 mt-1">
+					<div class="content-attraction bg-gray">
+						<a class="btn genric-btn success-border circle col-md-12" href="{% url 'plan_attraction' plan.id %}" > <i class="fa fa-heart"> </i> เพิ่มสถานที่ท่องเที่ยว</a>
+					</div>			
+				</div>
+			</div> {% endcomment %}
             
             
             <div class="row">    
@@ -126,8 +130,8 @@
 
                                 <p>{{ place.touristattraction.lat }}</p>
                                 <p>{{ place.touristattraction.lng }}</p> {% endcomment %}
-                                {% comment %} <button class="btn genric-btn info-border circle" data-toggle="modal" data-target="#deleteitem" href="{% url 'delete_item' %}"> <i class="fa fa-star"> </i> delete</button>  {% endcomment %}
-                               <a data-toggle="modal" data-target="#deleteattraction" href="#"><i class="fa fa-trash-o"></i></a>
+                                
+                               <a href="{% url 'place_delete' plan.id place.id %}"><i class="fa fa-trash-o"></i></a>
                             
                             </div>
                         </div>
@@ -156,26 +160,22 @@
                         </div>
                             <script>
                                 function initMap() {
-                                    {% for place in attractions %} 
-
-                                    var uluru = {
-                                        
-                                        lat: {{ place.touristattraction.lat }},
-                                        lng: {{ place.touristattraction.lng }}
-                                        
-                                    };
-                                    {% endfor %}
-
                                     var map = new google.maps.Map(document.getElementById('map'), {
-                                        zoom: 15,
-                                        center: uluru
-                                        
+                                        zoom: 5,
+                                        center: new google.maps.LatLng(13.0110681,96.9947089) // Center with Thailand
                                     });
 
-                                    var marker = new google.maps.Marker({position: uluru, map: map});
+                                    {% for place in attractions %}
+                                        var location = {
+                                            lat: {{ place.touristattraction.lat }},
+                                            lng: {{ place.touristattraction.lng }}
+                                        }
+                                        
+                                        var marker = new google.maps.Marker({position: location, map: map});
+                                    {% endfor %}
                                 }
                             </script>
-                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC29LAeniiLeMliJJ4SJsPff9vFLii2b3k&callback=initMap">
+                            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC29LAeniiLeMliJJ4SJsPff9vFLii2b3k&callback=initMap">
                             </script>
     
 

@@ -1,6 +1,6 @@
 #from django.contrib.auth.forms import UserCreationForm
 
-from os.path import exists
+from os.path import exists, getsize
 
 from django import forms
 from django.contrib import messages
@@ -15,7 +15,6 @@ from django.template.context_processors import request
 from django.template.loader import render_to_string
 from django.utils import timezone
 from django.views.generic import ListView, TemplateView
-
 
 from attraction.models import Category, Province, Rank, TouristAttraction
 from news.models import News
@@ -155,16 +154,18 @@ def my_plan(request, attraction_id):
 
     if request.GET.get('myplan') != None:
         myplan_id = int(request.GET.get('myplan'))
-        print(myplan_id)
         plan_qs = Plan.objects.filter(user=request.user, planed=False).values('id', 'touristattractions')
         if plan_qs.exists():
             for plan in plan_qs:
-                print(plan.get('touristattractions'))
                 if myplan_id == plan.get('id'):
                     isPlan = Plan.objects.get(id=myplan_id)
-                    isPlan.touristattractions.add(plan_touristattraction)
-                    messages.info(request, "สำเร็จ! บันทึกสถานที่ท่องเที่ยวลงแผนท่องเที่ยวแล้ว")
-                    return redirect("detail", attraction_id=attraction_id)
+                    if isPlan.touristattractions.filter(touristattraction__id=touristattraction.id).exists():
+                        messages.info(request, "ไม่สำเร็จ! สถานที่ท่องเที่ยวนี้มีในแผนท่องเที่ยวแล้ว")
+                        return redirect("my_plan", attraction_id=attraction_id)
+                    else:
+                        isPlan.touristattractions.add(plan_touristattraction)
+                        messages.info(request, "สำเร็จ! บันทึกสถานที่ท่องเที่ยวลงแผนท่องเที่ยวแล้ว")
+                        return redirect("detail", attraction_id=attraction_id)
     
 
     context = {
